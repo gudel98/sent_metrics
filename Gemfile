@@ -6,17 +6,14 @@ gem "puma", ">= 5.0"
 gem "sidekiq", "~> 8.1"
 gem "redis", "~> 5.4"
 
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-# gem "jbuilder"
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
-
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
 gem "activerecord-import"
 gem "countries"
+gem "oj", "~> 3.16"
 
 group :development, :test do
   gem "bundler-audit", require: false

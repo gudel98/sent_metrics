@@ -100,3 +100,7 @@ This project was developed with the assistance of an AI coding agent (Cursor / C
 ### Documentation Update
 **Prompt:** replace it with badge for my repo
 **Action Taken:** Replaced the static CI badge in `README.md` with the live GitHub Actions badge for the `gudel98/sent_metrics` repository.
+
+### Memory Optimization
+**Prompt:** let's implement correct JSON parsing via Oj to prevent OOM error if reviews.json is too big
+**Action Taken:** Added the `oj` gem and refactored the `reviews:ingest` Rake task to use `Oj::Saj` (Simple API for JSON). This streams the JSON file and processes it chunk-by-chunk instead of loading the entire file into memory, preventing OOM errors for massive datasets.

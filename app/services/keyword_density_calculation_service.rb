@@ -19,7 +19,7 @@ class KeywordDensityCalculationService
 
     total_reviews      = reviews.count
     matching_count     = matching_reviews.count
-    density_percentage = (matching_count.to_f / total_reviews.to_f * 100).round(2)
+    density_percentage = total_reviews.zero? ? 0.0 : (matching_count.to_f / total_reviews.to_f * 100).round(2)
 
     {
       total_reviews:        total_reviews,
