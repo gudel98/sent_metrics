@@ -68,7 +68,14 @@ RSpec.describe 'Api::V1::Metrics', type: :request do
     context 'when visualize is true' do
       before do
         allow(KeywordDensityCalculationService).to receive(:call)
-          .and_return({ total_reviews: 100, matching_reviews: 5, density_percentage: 5.0, term: 'bug', app_id: 'com.test.app' })
+          .and_return({
+                        total_reviews: 100,
+                        matching_reviews: 5,
+                        density_percentage: 5.0,
+                        term: 'bug',
+                        app_id: 'com.test.app',
+                        country_distribution: { 'US' => 3, 'GB' => 2 }
+                      })
       end
 
       it 'returns an HTML response' do

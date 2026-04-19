@@ -21,7 +21,7 @@ RSpec.describe KeywordDensityCalculationService do
       Review.create!(app_id: app_id, date: '2025-01-15', content: 'This app has a big BUG in it.', rating: 1, country: 'US')
       Review.create!(app_id: app_id, date: '2025-01-16', content: 'Another bug here.', rating: 2, country: 'US')
       Review.create!(app_id: app_id, date: '2025-01-17', content: 'Small bug but ok.', rating: 3, country: 'US')
-      Review.create!(app_id: app_id, date: '2025-01-18', content: 'Found a bug but love it.', rating: 5, country: 'US')
+      Review.create!(app_id: app_id, date: '2025-01-18', content: 'Found a bug but love it.', rating: 5, country: 'GB')
 
       # Non-matching review
       Review.create!(app_id: app_id, date: '2025-01-16', content: 'Great app, no issues.', rating: 5, country: 'US')
@@ -50,17 +50,22 @@ RSpec.describe KeywordDensityCalculationService do
 
     it 'calculates the negative reviews correctly (rating 1 and 2)' do
       result = described_class.call(params)
-      expect(result[:negative_reviews]).to eq(2)
+      expect(result[:rating_distribution][:negative]).to eq(2)
     end
 
     it 'calculates the neutral reviews correctly (rating 3)' do
       result = described_class.call(params)
-      expect(result[:neutral_reviews]).to eq(1)
+      expect(result[:rating_distribution][:neutral]).to eq(1)
     end
 
     it 'calculates the positive reviews correctly (rating 4 and 5)' do
       result = described_class.call(params)
-      expect(result[:positive_reviews]).to eq(1)
+      expect(result[:rating_distribution][:positive]).to eq(1)
+    end
+
+    it 'calculates the country distribution correctly' do
+      result = described_class.call(params)
+      expect(result[:country_distribution]).to eq({ 'US' => 3, 'GB' => 1 })
     end
   end
 end

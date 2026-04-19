@@ -85,3 +85,5 @@ This project was developed with the assistance of an AI coding agent (Cursor / C
 - Updated `Api::V1::MetricsController` to use `render template:` when `visualize=true`.
 - Added RSpec tests in `spec/requests/api/v1/metrics_spec.rb` to verify the HTML response and the presence of Chart.js.
 - Ran Rubocop to ensure the code complies with styling rules.
+- Add histogram to keword_density view which will show matched reviews distributions based on country
+- Updated `app/views/api/v1/metrics/keyword_density.html.erb` to render a Chart.js bar chart for the country distribution.

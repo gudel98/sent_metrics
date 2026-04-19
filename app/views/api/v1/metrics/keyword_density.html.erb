@@ -7,7 +7,7 @@
     body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
     .container { max-width: 800px; margin: 0 auto; }
     .stats { display: flex; justify-content: space-around; margin: 20px 0; }
-    .stat-box { padding: 20px; background: #f4f4f9; border-radius: 8px; }
+    .stat-box { padding: 20px; background: '#f4f4f9'; border-radius: 8px; }
   </style>
 </head>
 <body>
@@ -31,6 +31,9 @@
     </div>
 
     <canvas id="densityChart"></canvas>
+    <br>
+    <h3>Matched Reviews by Country</h3>
+    <canvas id="countryChart"></canvas>
   </div>
 
   <script>
@@ -46,10 +49,10 @@
         ],
         datasets: [{
           data: [
-            <%= @data[:positive_reviews] %>,
-            <%= @data[:neutral_reviews] %>,
-            <%= @data[:negative_reviews] %>,
-            <%= @data[:total_reviews] - @data[:matching_reviews] %>
+            <%= @data[:rating_distribution][:positive] %>,
+            <%= @data[:rating_distribution][:neutral] %>,
+            <%= @data[:rating_distribution][:negative] %>,
+            <%= (@data[:total_reviews]) - (@data[:matching_reviews]) %>
           ],
           backgroundColor: [
             '#00FF00',
@@ -63,6 +66,26 @@
         responsive: true,
         plugins: {
           legend: { position: 'bottom' }
+        }
+      }
+    });
+
+    const countryCtx = document.getElementById('countryChart');
+    const countryData = <%= (@data[:country_distribution] || {}).to_json.html_safe %>;
+    new Chart(countryCtx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(countryData),
+        datasets: [{
+          label: 'Matched Reviews',
+          data: Object.values(countryData),
+          backgroundColor: '#2196F3'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
         }
       }
     });
