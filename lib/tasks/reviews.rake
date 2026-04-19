@@ -31,9 +31,7 @@ namespace :reviews do
 
   def insert_and_enqueue(batch)
     raw_data_records = RawData.insert_all(batch, returning: %w[id])
-    
-    raw_data_records.rows.each do |row|
-      ReviewParserWorker.perform_async(row[0])
-    end
+
+    ReviewParserWorker.perform_async(raw_data_records.rows.flatten)
   end
 end
