@@ -1,5 +1,3 @@
-require "json"
-
 namespace :reviews do
   desc "Ingest reviews from a JSON file and enqueue Sidekiq jobs"
   task :ingest, [ :file_path ] => :environment do |_, args|
@@ -12,18 +10,17 @@ namespace :reviews do
 
     puts "Starting ingestion of #{file_path}..."
 
-    batch_size   = 1000
-    count        = 0
-    file_content = File.read(file_path)
-    data         = JSON.parse(file_content)
-    reviews      = data["reviews"] || []
+    batch_size = 1000
+    count      = 0
 
-    reviews.each_slice(batch_size) do |review_batch|
-      payload_batch = review_batch.map { |review| { payload: review } }
-
-      insert_and_enqueue(payload_batch)
-      count += payload_batch.size
+    handler = ReviewSajHandler.new(batch_size) do |batch|
+      insert_and_enqueue(batch)
+      count += batch.size
       puts "Processed #{count} reviews..."
+    end
+
+    File.open(file_path, "r") do |file|
+      Oj.saj_parse(handler, file)
     end
 
     puts "Ingestion finished."

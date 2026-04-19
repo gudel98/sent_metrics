@@ -4,10 +4,6 @@
 - **Data Ingestion**: The provided `reviews.json` file is a single large JSON object containing a `reviews` array. Given the potential size of such files in production, I opted for a batch ingestion strategy.
 - **Database Schema**: The `RawData` model stores the raw JSON payload to ensure no data is lost during the initial ingestion phase. The `Review` model extracts the specific fields required for the API (`app_id`, `date`, `country`, `content`, `rating`, `title`).
 
-## Open Questions & Future Considerations
-- **Handling New Data**: Right now, the app is built to read the `reviews.json` file once. If we need to constantly add new reviews as they come in, we would need to build a system that automatically fetches or receives new data in the background.
-- **Understanding User Feelings**: It would be really useful to see if certain keywords are linked to good or bad reviews. For example, if the word "bug" shows up a lot, we could check if those specific reviews also have 1-star ratings to prove it's a negative trend. For example: "There are no bugs in application" against "There are too many bugs".
-
 ## Thought Process
 1.  **Infrastructure Setup**: I started by containerizing the application with Docker Compose to ensure a consistent development environment, including PostgreSQL and Redis for Sidekiq.
 2.  **Data Pipeline**: I designed a two-step ingestion process: a Rake task to quickly load raw JSON into the database, and Sidekiq workers to asynchronously parse and format the data. This decoupling ensures the ingestion process is fast and resilient to parsing errors.
@@ -17,3 +13,9 @@
 6.  **Data Visualization**: Added a visual representation of the keyword density metrics. The endpoint can now render an HTML page with Chart.js when `visualize=true` is passed. This includes a pie chart for sentiment distribution (positive/neutral/negative) and a bar chart (histogram) for the distribution of matched reviews across different countries, displayed side-by-side using CSS Flexbox.
 7.  **Multi-Term Search**: Enhanced the keyword density calculation to support multiple terms simultaneously (e.g., `term=good,fun`). This was implemented using PostgreSQL's `ILIKE ANY (ARRAY[...])` syntax, which efficiently leverages the existing `pg_trgm` GIN index to find reviews containing any of the provided keywords while correctly handling overlapping matches.
 8.  **Documentation**: I've added a minimalistic documentation into README.md with a quick setup guide.
+9.  **Memory Optimization**: Replaced the standard `JSON.parse` in the `reviews:ingest` Rake task with `Oj::Saj` (a streaming JSON parser). This prevents Out of Memory (OOM) errors by parsing the `reviews.json` file chunk-by-chunk instead of loading the entire file into RAM at once, making the ingestion process highly scalable.
+
+## Open Questions & Future Considerations
+- **Handling new data**: Right now, the app is built to read the `reviews.json` file once. If we need to constantly add new reviews as they come in, we would need to build a system that automatically fetches or receives new data in the background.
+- **Source file correctness**: I'm aware of the fact that source `reviews.json` can contain some incorrect data so in the future I cn implement an extended flexible parsing mechanism to aggregate reviews in different formats.
+- **Extend search aread**: We can also either extend search to title column or add a separate title-search feature.
