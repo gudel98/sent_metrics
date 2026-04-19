@@ -12,7 +12,7 @@ class ReviewParserWorker
       Review.new(
         app_id:  payload["app_id"],
         date:    payload["date"],
-        country: payload["country"],
+        country: payload["country"]&.upcase,
         content: payload["content"],
         rating:  payload["rating"],
         title:   payload["title"]

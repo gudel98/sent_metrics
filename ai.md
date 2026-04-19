@@ -74,3 +74,16 @@ This project was developed with the assistance of an AI coding agent (Cursor / C
 - Updated `spec/models/review_spec.rb` to include a test for a non-existent 2-letter country code ('ZZ').
 - Updated `app/models/review.rb` to use a custom validation method (`country_must_be_valid_iso3166`) that checks the country code against the `countries` gem (`ISO3166::Country[country]`).
 - Ran Rubocop to ensure the model and tests comply with styling rules.
+
+## 2026-04-19 - Added Chart.js Visualization View
+
+**Prompt Used:**
+"let's add vizualization for results of KeywordDensityCalculationService rendering keyword_density view using chart.js"
+
+**Work Completed:**
+- Extracted the HTML generation from the controller into a dedicated view template (`app/views/api/v1/metrics/keyword_density.html.erb`) using Chart.js.
+- Updated `Api::V1::MetricsController` to use `render template:` when `visualize=true`.
+- Added RSpec tests in `spec/requests/api/v1/metrics_spec.rb` to verify the HTML response and the presence of Chart.js.
+- Ran Rubocop to ensure the code complies with styling rules.
+- Add histogram to keword_density view which will show matched reviews distributions based on country
+- Updated `app/views/api/v1/metrics/keyword_density.html.erb` to render a Chart.js bar chart for the country distribution.

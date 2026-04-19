@@ -15,19 +15,38 @@ class KeywordDensityCalculationService
   def call
     reviews = Review.where(app_id: app_id, date: start_date..end_date)
 
+    # for not strict searches we can use .where("content % ?", term) instead of ILIKE
+    matching_reviews = reviews.where("content ILIKE ?", "%#{term}%")
+
     total_reviews      = reviews.count
-    matching_reviews   = reviews.where("content ILIKE ?", "%#{term}%").count
-    density_percentage = (matching_reviews.to_f / total_reviews.to_f * 100).round(2)
-    # for typos and not strict searches we can use .where("content % ?", term) instead of ILIKE
+    matching_count     = matching_reviews.count
+    density_percentage = (matching_count.to_f / total_reviews.to_f * 100).round(2)
 
     {
-      total_reviews: total_reviews,
-      matching_reviews: matching_reviews,
-      density_percentage: density_percentage,
-      error: nil
+      total_reviews:        total_reviews,
+      matching_reviews:     matching_count,
+      density_percentage:   density_percentage,
+      rating_distribution:  rating_distribution(matching_reviews:),
+      country_distribution: country_distribution(matching_reviews:),
+      error:                nil
     }
   rescue StandardError => e
     Rails.logger.error "Error calculating keyword density: #{e.message}"
     { error: e.message }
+  end
+
+  private
+
+  def rating_distribution(matching_reviews:)
+    distribution = matching_reviews.group(:rating).count
+    {
+      negative: distribution.fetch(1, 0) + distribution.fetch(2, 0),
+      neutral:  distribution.fetch(3, 0),
+      positive: distribution.fetch(4, 0) + distribution.fetch(5, 0)
+    }
+  end
+
+  def country_distribution(matching_reviews:)
+    matching_reviews.group(:country).count
   end
 end
