@@ -23,3 +23,4 @@
 - **Extend search aread**: We can also either extend search to title column or add a separate title-search feature.
 - **Add rate limiting and restrict wide date ranges**: Wide ranges of dates can load the DB. As a future improvement they can be reduces. I would also implement `rack-attack` in the future.
 - **visualize=true**: I use visualize parameter for testing simplicity but I would improve my controller by delegating content type separation to `Accept` HTTP header.
+- **Caching**: I would also add caching in the future for the same oftenly used requests.
