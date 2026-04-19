@@ -1,0 +1,29 @@
+---
+description: Keep track of AI work and prompts in ai.md
+globs: *
+alwaysApply: true
+---
+
+# AI Work Logging
+
+To maintain a clear history of AI assistance and the thought process behind the project's development, all AI work and prompts must be logged in `ai.md`.
+
+1. **Log Every Task**: Whenever the AI completes a task, implements a feature, or provides significant guidance, update `ai.md`.
+2. **Include Prompts**: Document the specific prompts used to generate the code or guidance.
+3. **Describe the Work**: Provide a brief summary of what the AI accomplished (e.g., "Generated RSpec tests for the keyword density API endpoint").
+
+## Example Workflow
+
+After completing a task (e.g., implementing a new feature), append a new entry to `ai.md`:
+
+```markdown
+## [Date] - [Task Summary]
+
+**Prompt Used:**
+"Implement the keyword density API endpoint and write RSpec tests for it."
+
+**Work Completed:**
+- Generated `Api::V1::MetricsController#keyword_density`.
+- Wrote RSpec request specs for the endpoint.
+- Verified tests passed and Rubocop reported no offenses.
+```

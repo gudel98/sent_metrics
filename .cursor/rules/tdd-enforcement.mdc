@@ -1,0 +1,38 @@
+---
+description: Enforce Test-Driven Development (TDD) for all feature implementations
+globs: *
+alwaysApply: true
+---
+
+# Test-Driven Development (TDD)
+
+When implementing new features or modifying existing ones, you MUST follow a Test-Driven Development (TDD) approach:
+
+1. **Write Tests First**: Before writing any implementation code, create the appropriate test cases (e.g., RSpec files).
+2. **Run Tests to Verify Failure**: Run the newly created tests to ensure they fail as expected.
+3. **Implement Feature**: Write the minimum code necessary to make the tests pass.
+4. **Verify Success**: Run the tests again as a verification step to ensure the feature is implemented correctly and no regressions were introduced.
+
+## Example Workflow
+
+```ruby
+# 1. Write the test first (spec/models/example_spec.rb)
+require 'rails_helper'
+
+RSpec.describe Example, type: :model do
+  it 'returns true when valid' do
+    expect(Example.new.valid?).to be true
+  end
+end
+
+# 2. Run `bundle exec rspec spec/models/example_spec.rb` (it fails)
+
+# 3. Implement the feature (app/models/example.rb)
+class Example
+  def valid?
+    true
+  end
+end
+
+# 4. Run `bundle exec rspec spec/models/example_spec.rb` again (it passes)
+```

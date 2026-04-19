@@ -1,0 +1,19 @@
+---
+description: Enforce Rubocop styling and verification for all Ruby code
+globs: **/*.rb
+alwaysApply: true
+---
+
+# Rubocop Styling and Verification
+
+All Ruby code must adhere to the project's Rubocop style guidelines.
+
+1. **Write Compliant Code**: When writing or modifying Ruby code, ensure it follows standard Ruby conventions and the specific rules defined in `.rubocop.yml`.
+2. **Verify After Implementation**: After writing or modifying code, you MUST run Rubocop to verify compliance.
+3. **Fix Offenses**: If Rubocop reports any offenses, fix them immediately.
+
+## Example Workflow
+
+1. Write or modify a Ruby file (`app/models/example.rb`).
+2. Run `bundle exec rubocop app/models/example.rb`.
+3. If offenses are found (e.g., missing frozen string literal comment, incorrect indentation), fix them and run Rubocop again until the file is clean.
