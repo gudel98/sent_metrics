@@ -53,7 +53,10 @@ curl "http://localhost:3000/api/v1/metrics/keyword_density?app_id=com.instagram.
 ```
 
 **Visualized version:**
-http://localhost:3000/api/v1/metrics/keyword_density?app_id=com.instagram.android&start_date=2025-01-01&end_date=2025-01-31&term=bug,crash&visualize=true
+
+- http://localhost:3000/api/v1/metrics/keyword_density?app_id=com.instagram.android&start_date=2025-01-01&end_date=2025-01-31&term=bug,crash&visualize=true
+
+- http://localhost:3000/api/v1/metrics/keyword_density?app_id=com.roblox.client&start_date=2024-01-01&end_date=2026-01-31&term=fun&visualize=true
 
 ## CI Pipeline & Quality
 
@@ -79,3 +82,9 @@ To run these checks locally:
    docker compose exec web bundle exec bundler-audit check --update
    docker compose exec web bundle exec brakeman -q -w2
    ```
+
+## Cleanup
+
+```bash
+docker compose down -v
+```
