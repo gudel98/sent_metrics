@@ -35,3 +35,22 @@ This project was developed with the assistance of an AI coding agent (Cursor / C
 **Work Completed:**
 - Ran `bundle exec rubocop -a` to automatically fix all styling offenses in the codebase (such as string literals, spacing, and trailing whitespace).
 - Verified that `bundle exec rubocop` now reports 0 offenses.
+
+## 2026-04-19 - Added GIN Index with pg_trgm
+
+**Prompt Used:**
+"let's add GIN index + pg_trgm for term column of Review table to speedup text searches in KeywordDensityCalculationService"
+
+**Work Completed:**
+- Generated migration `AddTrigramIndexToReviewsContent` to enable the `pg_trgm` extension and add a GIN index to the `reviews.content` column.
+- Wrote RSpec tests for `KeywordDensityCalculationService` in `spec/services/keyword_density_calculation_service_spec.rb` to adhere to TDD rules.
+- Ran Rubocop to ensure the migration and tests comply with styling rules.
+
+## 2026-04-19 - Removed Controller Rescue Logic
+
+**Prompt Used:**
+"errors are handled in KeywordDensityCalculationService, no need to rescue them in controller"
+
+**Work Completed:**
+- Updated `spec/requests/api/v1/metrics_spec.rb` to expect the DB error to be returned as a standard JSON response with a 200 status, since the service rescues the error and returns it in the hash.
+- Ran Rubocop to ensure the updated tests comply with styling rules.
