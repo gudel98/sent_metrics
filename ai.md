@@ -87,3 +87,8 @@ This project was developed with the assistance of an AI coding agent (Cursor / C
 - Ran Rubocop to ensure the code complies with styling rules.
 - Add histogram to keword_density view which will show matched reviews distributions based on country
 - Updated `app/views/api/v1/metrics/keyword_density.html.erb` to render a Chart.js bar chart for the country distribution.
+
+## 2026-04-19 - Multi-Term Search Test Coverage
+
+**Prompt:** add test coverage for newly added multi-term search feature
+**Action Taken:** Added a new `context 'when multiple terms are provided'` block to `spec/services/keyword_density_calculation_service_spec.rb`. This tests that providing multiple terms calculates the total reviews, matching reviews (without double counting), and density percentage correctly.
