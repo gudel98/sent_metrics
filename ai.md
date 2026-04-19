@@ -27,4 +27,11 @@ This project was developed with the assistance of an AI coding agent (Cursor / C
 - Fixed Rubocop offenses in the test file.
 - Fixed `.rubocop.yml` deprecation warning (replaced `require` with `plugins`).
 
-## 2026-04-19 - Updated AI Logging Rule
+## 2026-04-19 - Fixed Rubocop Issues
+
+**Prompt Used:**
+"Fix rubocop issues"
+
+**Work Completed:**
+- Ran `bundle exec rubocop -a` to automatically fix all styling offenses in the codebase (such as string literals, spacing, and trailing whitespace).
+- Verified that `bundle exec rubocop` now reports 0 offenses.

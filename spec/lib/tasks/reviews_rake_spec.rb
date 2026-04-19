@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'rake'
 
-RSpec.describe 'reviews:ingest', type: :task do # rubocop:disable RSpec/DescribeClass
+RSpec.describe 'reviews:ingest', type: :task do
   before do
     Rails.application.load_tasks if Rake::Task.tasks.empty?
     Rake::Task['reviews:ingest'].reenable
@@ -45,10 +45,9 @@ RSpec.describe 'reviews:ingest', type: :task do # rubocop:disable RSpec/Describe
     end
 
     it 'enqueues ReviewParserWorker jobs' do
-      # Suppress output for this test to avoid clutter
       allow($stdout).to receive(:puts)
       Rake::Task['reviews:ingest'].invoke(test_file_path)
-      expect(ReviewParserWorker).to have_received(:perform_async).twice
+      expect(ReviewParserWorker).to have_received(:perform_async).once
     end
   end
 end

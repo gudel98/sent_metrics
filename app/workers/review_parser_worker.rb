@@ -10,12 +10,12 @@ class ReviewParserWorker
     reviews = raw_data_records.map do |raw_data|
       payload = raw_data.payload
       Review.new(
-        app_id:  payload['app_id'],
-        date:    payload['date'],
-        country: payload['country'],
-        content: payload['content'],
-        rating:  payload['rating'],
-        title:   payload['title']
+        app_id:  payload["app_id"],
+        date:    payload["date"],
+        country: payload["country"],
+        content: payload["content"],
+        rating:  payload["rating"],
+        title:   payload["title"]
       )
     end
 
