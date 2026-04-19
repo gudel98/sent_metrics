@@ -20,3 +20,5 @@
 - **Handling new data**: Right now, the app is built to read the `reviews.json` file once. If we need to constantly add new reviews as they come in, we would need to build a system that automatically fetches or receives new data in the background.
 - **Source file correctness**: I'm aware of the fact that source `reviews.json` can contain some incorrect data so in the future I cn implement an extended flexible parsing mechanism to aggregate reviews in different formats.
 - **Extend search aread**: We can also either extend search to title column or add a separate title-search feature.
+- **Add rate limiting and restrict wide date ranges**: Wide ranges of dates can load the DB. As a future improvement they can be reduces. I would also implement `rack-attack` in the future.
+- **visualize=true**: I use visualize parameter for testing simplicity but I would improve my controller by delegating content type separation to `Accept` HTTP header.
