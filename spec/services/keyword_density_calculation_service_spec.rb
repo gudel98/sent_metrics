@@ -67,5 +67,34 @@ RSpec.describe KeywordDensityCalculationService do
       result = described_class.call(params)
       expect(result[:country_distribution]).to eq({ 'US' => 3, 'GB' => 1 })
     end
+
+    context 'when multiple terms are provided' do
+      let(:term) { 'bug, crash' }
+
+      before do
+        # Add a review with 'crash'
+        Review.create!(app_id: app_id, date: '2025-01-19', content: 'It will crash occasionally.', rating: 1, country: 'US')
+        # Add a review with both 'bug' and 'crash'
+        Review.create!(app_id: app_id, date: '2025-01-20', content: 'A bug caused a crash.', rating: 1, country: 'US')
+      end
+
+      it 'calculates the total reviews correctly' do
+        result = described_class.call(params)
+        expect(result[:total_reviews]).to eq(7) # 5 from outer before + 2 new ones
+      end
+
+      it 'calculates the matching reviews correctly without double counting' do
+        result = described_class.call(params)
+        # Outer before has 4 matching 'bug'
+        # New ones: 1 matching 'crash', 1 matching both 'bug' and 'crash'
+        # Total matching should be 4 + 1 + 1 = 6
+        expect(result[:matching_reviews]).to eq(6)
+      end
+
+      it 'calculates the density percentage correctly' do
+        result = described_class.call(params)
+        expect(result[:density_percentage]).to eq(85.71) # (6 / 7.0 * 100).round(2)
+      end
+    end
   end
 end

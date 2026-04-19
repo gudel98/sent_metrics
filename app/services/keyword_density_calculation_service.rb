@@ -15,8 +15,7 @@ class KeywordDensityCalculationService
   def call
     reviews = Review.where(app_id: app_id, date: start_date..end_date)
 
-    # for not strict searches we can use .where("content % ?", term) instead of ILIKE
-    matching_reviews = reviews.where("content ILIKE ?", "%#{term}%")
+    matching_reviews = find_matching_reviews(reviews:)
 
     total_reviews      = reviews.count
     matching_count     = matching_reviews.count
@@ -36,6 +35,16 @@ class KeywordDensityCalculationService
   end
 
   private
+
+  def find_matching_reviews(reviews:)
+    terms = term.split(",").map(&:strip).map { |t| "%#{t}%" }
+
+    if terms.count > 1
+      reviews.where("content ILIKE ANY (ARRAY[?])", terms)
+    else
+      reviews.where("content ILIKE ?", "%#{term}%")
+    end
+  end
 
   def rating_distribution(matching_reviews:)
     distribution = matching_reviews.group(:rating).count
