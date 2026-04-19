@@ -54,3 +54,23 @@ This project was developed with the assistance of an AI coding agent (Cursor / C
 **Work Completed:**
 - Updated `spec/requests/api/v1/metrics_spec.rb` to expect the DB error to be returned as a standard JSON response with a 200 status, since the service rescues the error and returns it in the hash.
 - Ran Rubocop to ensure the updated tests comply with styling rules.
+
+## 2026-04-19 - Added Review Model Validations
+
+**Prompt Used:**
+"add model validations for review model - date is a valid date. cannot be in the future - country is aplha 2 country code - rating is only [1,2,3,4,5]"
+
+**Work Completed:**
+- Wrote RSpec tests in `spec/models/review_spec.rb` to verify date, country, and rating validations.
+- Implemented validations in `app/models/review.rb` for date (custom validation for future dates), country (regex for 2-letter uppercase), and rating (numericality between 1 and 5).
+- Ran Rubocop to ensure the model and tests comply with styling rules.
+
+## 2026-04-19 - Updated Country Validation
+
+**Prompt Used:**
+"I've added countries gem, update review.country validation based on countries gem"
+
+**Work Completed:**
+- Updated `spec/models/review_spec.rb` to include a test for a non-existent 2-letter country code ('ZZ').
+- Updated `app/models/review.rb` to use a custom validation method (`country_must_be_valid_iso3166`) that checks the country code against the `countries` gem (`ISO3166::Country[country]`).
+- Ran Rubocop to ensure the model and tests comply with styling rules.
