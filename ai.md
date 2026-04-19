@@ -92,3 +92,11 @@ This project was developed with the assistance of an AI coding agent (Cursor / C
 
 **Prompt:** add test coverage for newly added multi-term search feature
 **Action Taken:** Added a new `context 'when multiple terms are provided'` block to `spec/services/keyword_density_calculation_service_spec.rb`. This tests that providing multiple terms calculates the total reviews, matching reviews (without double counting), and density percentage correctly.
+
+### Documentation Update
+**Prompt:** add documentation for local setup of this project, description of it's functionality, guide for testing. make it minimalistic and elegant
+**Action Taken:** Rewrote the `README.md` file completely to provide a clean, elegant, and comprehensive guide covering project features, Docker-based local setup, API usage (including multi-term search and visualization), and testing/linting commands.
+
+### Documentation Update
+**Prompt:** replace it with badge for my repo
+**Action Taken:** Replaced the static CI badge in `README.md` with the live GitHub Actions badge for the `gudel98/sent_metrics` repository.
