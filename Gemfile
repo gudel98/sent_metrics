@@ -16,6 +16,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 
 gem "activerecord-import"
+gem "countries"
 
 group :development, :test do
   gem "bundler-audit", require: false

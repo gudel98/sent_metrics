@@ -7,6 +7,7 @@
 ## Open Questions & Future Considerations
 - **Handling New Data**: Right now, the app is built to read the `reviews.json` file once. If we need to constantly add new reviews as they come in, we would need to build a system that automatically fetches or receives new data in the background.
 - **Understanding User Feelings**: It would be really useful to see if certain keywords are linked to good or bad reviews. For example, if the word "bug" shows up a lot, we could check if those specific reviews also have 1-star ratings to prove it's a negative trend. For example: "There are no bugs in application" against "There are too many bugs".
+- **Country-based chart**: I'm gonna add country-based chart.
 
 ## Evolution of Thought Process
 1.  **Infrastructure Setup**: I started by containerizing the application with Docker Compose to ensure a consistent development environment, including PostgreSQL and Redis for Sidekiq.
