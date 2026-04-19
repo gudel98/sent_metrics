@@ -8,7 +8,7 @@ alwaysApply: true
 
 To maintain a clear history of AI assistance and the thought process behind the project's development, all AI work and prompts must be logged in `ai.md`.
 
-1. **Log Every Task**: Whenever the AI completes a task, implements a feature, or provides significant guidance, update `ai.md`.
+1. **Log Every Task**: Whenever the AI completes a task, implements a feature, or provides significant guidance, update `ai.md` by appending to the end of the file. Do NOT overwrite previous changes.
 2. **Include Prompts**: Document the specific prompts used to generate the code or guidance.
 3. **Describe the Work**: Provide a brief summary of what the AI accomplished (e.g., "Generated RSpec tests for the keyword density API endpoint").
 
