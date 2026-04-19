@@ -74,6 +74,7 @@ RSpec.describe 'Api::V1::Metrics', type: :request do
                         density_percentage: 5.0,
                         term: 'bug',
                         app_id: 'com.test.app',
+                        rating_distribution: { positive: 3, neutral: 1, negative: 1 },
                         country_distribution: { 'US' => 3, 'GB' => 2 }
                       })
       end
