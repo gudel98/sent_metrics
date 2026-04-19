@@ -1,8 +1,13 @@
 class Api::V1::MetricsController < ApplicationController
   def keyword_density
-    calculation_result = KeywordDensityCalculationService.call(permitted_params)
+    @data = KeywordDensityCalculationService.call(permitted_params)
 
-    render json: calculation_result
+    if permitted_params[:visualize] == "true"
+      @request_params = permitted_params
+      render template: "api/v1/metrics/keyword_density", layout: false, formats: [ :html ]
+    else
+      render json: @data
+    end
   end
 
   private

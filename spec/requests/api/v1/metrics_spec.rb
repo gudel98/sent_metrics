@@ -64,5 +64,22 @@ RSpec.describe 'Api::V1::Metrics', type: :request do
         expect(json_response['error']).to eq('DB Error')
       end
     end
+
+    context 'when visualize is true' do
+      before do
+        allow(KeywordDensityCalculationService).to receive(:call)
+          .and_return({ total_reviews: 100, matching_reviews: 5, density_percentage: 5.0, term: 'bug', app_id: 'com.test.app' })
+      end
+
+      it 'returns an HTML response' do
+        get '/api/v1/metrics/keyword_density', params: valid_params.merge(visualize: 'true')
+        expect(response.content_type).to eq('text/html; charset=utf-8')
+      end
+
+      it 'includes chart.js in the response body' do
+        get '/api/v1/metrics/keyword_density', params: valid_params.merge(visualize: 'true')
+        expect(response.body).to include('chart.js')
+      end
+    end
   end
 end

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Keyword Density Visualization</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
+    .container { max-width: 800px; margin: 0 auto; }
+    .stats { display: flex; justify-content: space-around; margin: 20px 0; }
+    .stat-box { padding: 20px; background: #f4f4f9; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Keyword Density for "<%= @request_params[:term] %>"</h2>
+    <p>App: <%= @request_params[:app_id] %> | Date: <%= @request_params[:start_date] %> to <%= @request_params[:end_date] %></p>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <h3><%= @data[:total_reviews] %></h3>
+        <p>Total Reviews</p>
+      </div>
+      <div class="stat-box">
+        <h3><%= @data[:matching_reviews] %></h3>
+        <p>Matching Reviews</p>
+      </div>
+      <div class="stat-box">
+        <h3><%= @data[:density_percentage] %>%</h3>
+        <p>Density</p>
+      </div>
+    </div>
+
+    <canvas id="densityChart"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('densityChart');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Matching Reviews', 'Other Reviews'],
+        datasets: [{
+          data: [<%= @data[:matching_reviews] %>, <%= @data[:total_reviews] - @data[:matching_reviews] %>],
+          backgroundColor: ['#4CAF50', '#E0E0E0']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
