@@ -19,6 +19,6 @@ class ReviewParserWorker
       )
     end
 
-    Review.import(reviews, validate: true)
+    Review.import(reviews, validate: true, on_duplicate_key_ignore: true)
   end
 end

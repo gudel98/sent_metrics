@@ -14,6 +14,7 @@
 7.  **Multi-Term Search**: Enhanced the keyword density calculation to support multiple terms simultaneously (e.g., `term=good,fun`). This was implemented using PostgreSQL's `ILIKE ANY (ARRAY[...])` syntax, which efficiently leverages the existing `pg_trgm` GIN index to find reviews containing any of the provided keywords while correctly handling overlapping matches.
 8.  **Documentation**: I've added a minimalistic documentation into README.md with a quick setup guide.
 9.  **Memory Optimization**: Replaced the standard `JSON.parse` in the `reviews:ingest` Rake task with `Oj::Saj` (a streaming JSON parser). This prevents Out of Memory (OOM) errors by parsing the `reviews.json` file chunk-by-chunk instead of loading the entire file into RAM at once, making the ingestion process highly scalable.
+10. **Worker Idempotency**: I've added a unique composite index to the `reviews` table (`app_id`, `date`, `rating`, `country`, `title`) and updated the Sidekiq `ReviewParserWorker` to use `on_duplicate_key_ignore: true` during bulk imports. This ensures that if a worker fails halfway and is retried, it will not insert duplicate reviews into the database.
 
 ## Open Questions & Future Considerations
 - **Handling new data**: Right now, the app is built to read the `reviews.json` file once. If we need to constantly add new reviews as they come in, we would need to build a system that automatically fetches or receives new data in the background.
