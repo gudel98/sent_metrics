@@ -7,7 +7,19 @@
     body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
     .container { max-width: 800px; margin: 0 auto; }
     .stats { display: flex; justify-content: space-around; margin: 20px 0; }
-    .stat-box { padding: 20px; background: '#f4f4f9'; border-radius: 8px; }
+    .stat-box { padding: 20px; background: #f4f4f9; border-radius: 8px; }
+
+    .charts-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      margin-top: 30px;
+    }
+    .chart-wrapper {
+      flex: 1;
+      min-width: 0;
+    }
   </style>
 </head>
 <body>
@@ -30,10 +42,17 @@
       </div>
     </div>
 
-    <canvas id="densityChart"></canvas>
-    <br>
-    <h3>Matched Reviews by Country</h3>
-    <canvas id="countryChart"></canvas>
+    <div class="charts-container">
+      <div class="chart-wrapper">
+        <h3>Sentiment Distribution</h3>
+        <canvas id="densityChart"></canvas>
+      </div>
+      
+      <div class="chart-wrapper">
+        <h3>Matched Reviews by Country</h3>
+        <canvas id="countryChart"></canvas>
+      </div>
+    </div>
   </div>
 
   <script>
