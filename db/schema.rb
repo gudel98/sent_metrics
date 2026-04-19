@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_19_133138) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_19_154745) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "raw_data", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -30,6 +31,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_19_133138) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_reviews_on_app_id"
+    t.index ["content"], name: "index_reviews_on_content", opclass: :gin_trgm_ops, using: :gin
     t.index ["date"], name: "index_reviews_on_date"
   end
 end
