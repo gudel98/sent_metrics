@@ -17,29 +17,50 @@ RSpec.describe KeywordDensityCalculationService do
     end
 
     before do
-      # Matching review
-      Review.create!(app_id: app_id, date: '2025-01-15', content: 'This app has a big BUG in it.', rating: 1)
+      # Matching reviews
+      Review.create!(app_id: app_id, date: '2025-01-15', content: 'This app has a big BUG in it.', rating: 1, country: 'US')
+      Review.create!(app_id: app_id, date: '2025-01-16', content: 'Another bug here.', rating: 2, country: 'US')
+      Review.create!(app_id: app_id, date: '2025-01-17', content: 'Small bug but ok.', rating: 3, country: 'US')
+      Review.create!(app_id: app_id, date: '2025-01-18', content: 'Found a bug but love it.', rating: 5, country: 'US')
+
       # Non-matching review
-      Review.create!(app_id: app_id, date: '2025-01-16', content: 'Great app, no issues.', rating: 5)
+      Review.create!(app_id: app_id, date: '2025-01-16', content: 'Great app, no issues.', rating: 5, country: 'US')
+
       # Outside date range
-      Review.create!(app_id: app_id, date: '2025-02-01', content: 'Another bug here.', rating: 2)
+      Review.create!(app_id: app_id, date: '2025-02-01', content: 'Another bug here.', rating: 2, country: 'US')
+
       # Different app
-      Review.create!(app_id: 'com.other.app', date: '2025-01-15', content: 'A bug in the other app.', rating: 1)
+      Review.create!(app_id: 'com.other.app', date: '2025-01-15', content: 'A bug in the other app.', rating: 1, country: 'US')
     end
 
     it 'calculates the total reviews correctly' do
       result = described_class.call(params)
-      expect(result[:total_reviews]).to eq(2)
+      expect(result[:total_reviews]).to eq(5)
     end
 
     it 'calculates the matching reviews correctly' do
       result = described_class.call(params)
-      expect(result[:matching_reviews]).to eq(1)
+      expect(result[:matching_reviews]).to eq(4)
     end
 
     it 'calculates the density percentage correctly' do
       result = described_class.call(params)
-      expect(result[:density_percentage]).to eq(50.0)
+      expect(result[:density_percentage]).to eq(80.0) # 4 out of 5
+    end
+
+    it 'calculates the negative reviews correctly (rating 1 and 2)' do
+      result = described_class.call(params)
+      expect(result[:negative_reviews]).to eq(2)
+    end
+
+    it 'calculates the neutral reviews correctly (rating 3)' do
+      result = described_class.call(params)
+      expect(result[:neutral_reviews]).to eq(1)
+    end
+
+    it 'calculates the positive reviews correctly (rating 4 and 5)' do
+      result = described_class.call(params)
+      expect(result[:positive_reviews]).to eq(1)
     end
   end
 end

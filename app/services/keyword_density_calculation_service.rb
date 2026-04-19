@@ -15,16 +15,26 @@ class KeywordDensityCalculationService
   def call
     reviews = Review.where(app_id: app_id, date: start_date..end_date)
 
-    total_reviews      = reviews.count
-    matching_reviews   = reviews.where("content ILIKE ?", "%#{term}%").count
-    density_percentage = (matching_reviews.to_f / total_reviews.to_f * 100).round(2)
     # for typos and not strict searches we can use .where("content % ?", term) instead of ILIKE
+    matching_reviews = reviews.where("content ILIKE ?", "%#{term}%")
+
+    rating_counts  = matching_reviews.group(:rating).count
+    negative_count = rating_counts.fetch(1, 0) + rating_counts.fetch(2, 0)
+    neutral_count  = rating_counts.fetch(3, 0)
+    positive_count = rating_counts.fetch(4, 0) + rating_counts.fetch(5, 0)
+
+    total_reviews      = reviews.count
+    matching_count     = matching_reviews.count
+    density_percentage = (matching_count.to_f / total_reviews.to_f * 100).round(2)
 
     {
-      total_reviews: total_reviews,
-      matching_reviews: matching_reviews,
+      total_reviews:      total_reviews,
+      matching_reviews:   matching_count,
       density_percentage: density_percentage,
-      error: nil
+      negative_reviews:   negative_count,
+      neutral_reviews:    neutral_count,
+      positive_reviews:   positive_count,
+      error:              nil
     }
   rescue StandardError => e
     Rails.logger.error "Error calculating keyword density: #{e.message}"

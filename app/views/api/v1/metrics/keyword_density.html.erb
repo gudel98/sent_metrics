@@ -38,10 +38,25 @@
     new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Matching Reviews', 'Other Reviews'],
+        labels: [
+          'Positive Reviews',
+          'Neutral Reviews',
+          'Negative Reviews',
+          'Other Reviews'
+        ],
         datasets: [{
-          data: [<%= @data[:matching_reviews] %>, <%= @data[:total_reviews] - @data[:matching_reviews] %>],
-          backgroundColor: ['#4CAF50', '#E0E0E0']
+          data: [
+            <%= @data[:positive_reviews] %>,
+            <%= @data[:neutral_reviews] %>,
+            <%= @data[:negative_reviews] %>,
+            <%= @data[:total_reviews] - @data[:matching_reviews] %>
+          ],
+          backgroundColor: [
+            '#00FF00',
+            '#FFCB00',
+            '#FF0000',
+            '#E0E0E0'
+          ]
         }]
       },
       options: {
